@@ -31,9 +31,31 @@ app.get("/mean", function (req, res){
 
 /** Finds median of nums in qs: returns {operation: "median", result } */
 
+app.get("/median", function (req, res) {
+  if (!req.query.nums) throw new BadRequestError(message = "Numbers are required");
+
+  const strNums = req.query.nums.split(",");
+  let nums = convertStrNums(strNums);
+  const median = findMedian(nums);
+  return res.json({
+    operation: "median",
+    result: median,
+  });
+});
+
 
 /** Finds mode of nums in qs: returns {operation: "mean", result } */
+app.get("/mode", function (req, res) {
+  if (!req.query.nums) throw new BadRequestError(message = "Numbers are required");
 
+  const strNums = req.query.nums.split(",");
+  let nums = convertStrNums(strNums);
+  let mode = findMode(nums);
+  return res.json({
+    operation: "mode",
+    result: mode,
+  });
+});
 
 /** 404 handler: matches unmatched routes; raises NotFoundError. */
 app.use(function (req, res, next) {
